@@ -23,12 +23,12 @@ app.use((req, res, next) => {
 
 app.set('db', persons)
 //TODO: Implement crud of persons
-app.get('/persons', (req, res) => {
+app.get('/person', (req, res) => {
     const db = app.get('db')
     res.send(db)
 })
 
-app.get('/persons/:id', (req, res) => {
+app.get('/person/:id', (req, res) => {
     const db = app.get('db')
     const person = db.find(person => person.id === req.params.id)
     if (person) {
@@ -40,7 +40,7 @@ app.get('/persons/:id', (req, res) => {
     }
 })
 
-app.post('/persons', (req, res) => {
+app.post('/person', (req, res) => {
     const { error } = postValidation(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
@@ -48,10 +48,10 @@ app.post('/persons', (req, res) => {
     req.body.id = uuidv4();
     const db = app.get('db');
     db.push(req.body);
-    res.status(201).send('Person added successfully');
+    res.status(200).send('Person added successfully');
 });
 
-app.put('/persons/:id', (req, res) => {
+app.put('/person/:id', (req, res) => {
     const { error } = putValidation(req.body)
     if (error) {
         return res.status(400).send(error.details[0].message)
@@ -70,7 +70,7 @@ app.put('/persons/:id', (req, res) => {
     }
 })
 
-app.delete('/persons/:id', (req, res) => {
+app.delete('/person/:id', (req, res) => {
     const db = app.get('db')
     const index = db.findIndex(person => person.id === req.params.id)
     if (index !== -1) {
